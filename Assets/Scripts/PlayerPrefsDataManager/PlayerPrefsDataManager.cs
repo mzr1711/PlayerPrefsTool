@@ -7,7 +7,7 @@ using UnityEngine;
 using static UnityEditor.LightingExplorerTableColumn;
 
 /// <summary>
-/// PlayerPrefsÊı¾İ¹ÜÀíÀà£¬Í³Ò»¹ÜÀíÊı¾İµÄ¶ÁÈ¡ºÍ´æ´¢
+/// PlayerPrefsæ•°æ®ç®¡ç†ç±»ï¼Œç»Ÿä¸€ç®¡ç†æ•°æ®çš„è¯»å–å’Œå­˜å‚¨
 /// </summary>
 public class PlayerPrefsDataManager
 {
@@ -27,15 +27,15 @@ public class PlayerPrefsDataManager
     }
 
     /// <summary>
-    /// ´æ´¢Êı¾İ
+    /// å­˜å‚¨æ•°æ®
     /// </summary>
-    /// <param name="data">Êı¾İ¶ÔÏó</param>
-    /// <param name="keyName">Êı¾İ¶ÔÏóÎ¨Ò»µÄkey ×Ô¼º¿ØÖÆ</param>
+    /// <param name="data">æ•°æ®å¯¹è±¡</param>
+    /// <param name="keyName">æ•°æ®å¯¹è±¡å”¯ä¸€çš„key è‡ªå·±æ§åˆ¶</param>
     public void SaveData(object data, string keyName)
     {
         Type dataType = data.GetType();
         FieldInfo[] infos = dataType.GetFields();
-        // keyName_Êı¾İÀàĞÍ_×Ö¶ÎÀàĞÍ_×Ö¶ÎÃû
+        // keyName_æ•°æ®ç±»å‹_å­—æ®µç±»å‹_å­—æ®µå
         string saveName = "";
         for (int i = 0; i < infos.Length; i++)
         {
@@ -65,7 +65,7 @@ public class PlayerPrefsDataManager
         {
             PlayerPrefs.SetInt(saveName, (bool)saveData == true ? 1 : 0);
         }
-        // Í¨¹ı·´ÉäÅĞ¶Ï¸¸×Ó¹ØÏµ
+        // é€šè¿‡åå°„åˆ¤æ–­çˆ¶å­å…³ç³»
         else if (typeof(IList).IsAssignableFrom(t))
         {
             IList iList = saveData as IList;
@@ -89,22 +89,22 @@ public class PlayerPrefsDataManager
         }
         else if (t.GetType().IsClass)
         {
-            SaveData(t, saveName);
+            SaveData(saveData, saveName);
         }
     }
 
     /// <summary>
-    /// ¶ÁÈ¡Êı¾İ
+    /// è¯»å–æ•°æ®
     /// </summary>
-    /// <param name="type">ÏëÒª¶ÁÈ¡¶ÔÏóµÄ Êı¾İÀàĞÍ</param>
-    /// <param name="keyName">Êı¾İ¶ÔÏóµÄÎ¨Ò»key ×Ô¼º¿ØÖÆ</param>
-    /// <returns>·µ»Ø´´½¨ºÃµÄ¶ÔÏó</returns>
+    /// <param name="type">æƒ³è¦è¯»å–å¯¹è±¡çš„ æ•°æ®ç±»å‹</param>
+    /// <param name="keyName">æ•°æ®å¯¹è±¡çš„å”¯ä¸€key è‡ªå·±æ§åˆ¶</param>
+    /// <returns>è¿”å›åˆ›å»ºå¥½çš„å¯¹è±¡</returns>
     public object LoadData(Type type, string keyName)
     {
-        // ²»ÓÃobject¶ÔÏó£¬¶øÊ¹ÓÃtype´«Èë
-        // Ä¿µÄÊÇÎªÁË½ÚÊ¡Ò»¶Î´´½¨¶ÔÏóµÄ´úÂë
-        // Èç¹ûÓÃobject´«Èë£¬¶ÁÈ¡Ò»¸öPlayerÀàĞÍµÄÊı¾İ£¬¾Í±ØĞëÔÚÍâ²¿newÒ»¸ö¶ÔÏó´«Èë
-        // ÓÃtype´«ÈëµÄ»°£¬¾Í¿ÉÒÔÖ»´«Èëtype typeof(Player)£¬ÔÙÔÚÄÚ²¿´´½¨Ò»¸ö¶ÔÏó·µ»Ø³öÀ´
+        // ä¸ç”¨objectå¯¹è±¡ï¼Œè€Œä½¿ç”¨typeä¼ å…¥
+        // ç›®çš„æ˜¯ä¸ºäº†èŠ‚çœä¸€æ®µåˆ›å»ºå¯¹è±¡çš„ä»£ç 
+        // å¦‚æœç”¨objectä¼ å…¥ï¼Œè¯»å–ä¸€ä¸ªPlayerç±»å‹çš„æ•°æ®ï¼Œå°±å¿…é¡»åœ¨å¤–éƒ¨newä¸€ä¸ªå¯¹è±¡ä¼ å…¥
+        // ç”¨typeä¼ å…¥çš„è¯ï¼Œå°±å¯ä»¥åªä¼ å…¥type typeof(Player)ï¼Œå†åœ¨å†…éƒ¨åˆ›å»ºä¸€ä¸ªå¯¹è±¡è¿”å›å‡ºæ¥
         object data = Activator.CreateInstance(type);
         FieldInfo[] infos = type.GetFields();
         string getName = "";
